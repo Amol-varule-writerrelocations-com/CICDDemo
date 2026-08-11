@@ -1,1 +1,26 @@
+name: Build MVC 4.8
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore Packages
+      run: nuget restore CICDDemo.sln
+
+    - name: Build Solution
+      run: msbuild CICDDemo.sln /p:Configuration=Release
